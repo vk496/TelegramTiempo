@@ -26,9 +26,11 @@ function send(){
         to=("@vk496")
         #to=("chat#5193990") #OpenRITSI
 
+	set -x
         for i in "${to[@]}"; do
-		$TG_CLI -U root -G root -W -e "send_photo $i $IMAGE_PATH/$1.png ${@:2}"
+		$TG_CLI -U root -G root -W -D -e "send_photo $i $IMAGE_PATH/$1.png ${@:2}"
         done
+	set +x
 }
 
 
