@@ -13,5 +13,4 @@ script:
  - docker build -t telegram .
 
 after_success:
- - docker run --rm telegram
-
+ - docker run --rm -e GPG_PASS=$GPG_PASS -it telegram
