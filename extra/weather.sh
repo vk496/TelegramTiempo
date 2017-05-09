@@ -6,7 +6,7 @@ if [ -f $CLI_DATA/auth.bot.gpg ];
 then
   asize=$(wc -c < $CLI_DATA/auth.bot.gpg)
   if (($asize > 0)); then
-	gpg --yes --batch --passphrase=$GPG_PASS $CLI_DATA/auth.bot.gpg -o $CLI_DATA/auth
+	gpg --yes --batch --passphrase=$GPG_PASS -o $CLI_DATA/auth $CLI_DATA/auth.bot.gpg
   else
      echo "[RUN] Authfile is empty."
      exit 1
