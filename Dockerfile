@@ -31,10 +31,10 @@ ENV PATH "$TG_HOME"/tg/bin/:$PATH
 RUN mkdir -p "$TG_HOME" "$WEATHER_DIR"
 
 
-RUN git clone --recursive https://github.com/vysheng/tg.git "$TG_HOME" \
-    && (    cd $TG_HOME && git checkout 160231bdd7887316b544412e8b97bcdd86ac25a4 \
-        &&  cd tgl && git checkout 08b6340c1cbf1ef59690007b0207de9d5c904c07 \
-        &&  cd tl-parser && git checkout 1659d87b8dfee385cc587661d592a5ade2b4171b \
+RUN git clone --recursive https://github.com/and-rom/tg.git "$TG_HOME" \
+    && (    cd $TG_HOME && git checkout f2c95efab41f1ade33c9b11de1cf2618ee7699d3 \
+        &&  cd tgl && git checkout 2634b2edf3637301578428315915ff992e9b210a \
+        &&  cd tl-parser && git checkout 36bf1902ff3476c75d0b1f42b34a91e944123b3c \
         )
 WORKDIR "$TG_HOME"
 RUN ./configure --disable-liblua --disable-python && make
