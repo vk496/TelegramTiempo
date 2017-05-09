@@ -23,12 +23,12 @@ mkdir -p $IMAGE_PATH
 
 function send(){
 
-        to=("@vk496")
-        #to=("chat#5193990") #OpenRITSI
+        #to=("@vk496")
+        to=("chat#5193990") #OpenRITSI
 
 	set -x
         for i in "${to[@]}"; do
-		$TG_CLI -U root -G root -W -D -e "send_photo $i $IMAGE_PATH/$1.png ${@:2}"
+		eval $TG_CLI -U root -G root -W -D -e \"send_photo $i $IMAGE_PATH/$1.png ${@:2}\"
         done
 	set +x
 }
@@ -57,6 +57,6 @@ for city in "${CIUDADES[@]}"; do
 			"Donostia-San-Sebastian") ciudad="#DonostiaDirecto" ;;
 		esac
 
-		eval send $city \"$ciudad\" \"#Tiempo\" \"$extra\"
+		send "$city" "$ciudad" "#Tiempo" "$extra"
 	fi
 done
