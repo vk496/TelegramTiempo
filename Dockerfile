@@ -44,8 +44,6 @@ RUN chmod +x "$WEATHER_DIR"/weather.sh
 
 COPY extra/auth.bot.gpg $CLI_DATA/
 
-RUN gpg --yes --batch --passphrase='$GPG_PASS' $CLI_DATA/auth.bot.gpg -o $CLI_DATA/auth
-
 CMD ["bash"]
 
 ENTRYPOINT ["/root/weather/weather.sh"]

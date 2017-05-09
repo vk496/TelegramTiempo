@@ -2,11 +2,11 @@
 set -e
 
 echo "[RUN] Looking for existing authentification at '$CLI_DATA/auth'."
-if [ -f $CLI_DATA/auth ];
+if [ -f $CLI_DATA/auth.bot.gpg ];
 then
-  asize=$(wc -c < $CLI_DATA/auth)
+  asize=$(wc -c < $CLI_DATA/auth.bot.gpg)
   if (($asize > 0)); then
-     echo "[RUN] Authfile is existing, size $asize."
+	gpg --yes --batch --passphrase=$GPG_PASS $CLI_DATA/auth.bot.gpg -o $CLI_DATA/auth
   else
      echo "[RUN] Authfile is empty."
      exit 1
