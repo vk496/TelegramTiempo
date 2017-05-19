@@ -21,10 +21,11 @@ IMAGE_PATH=$WEATHER_DIR
 
 mkdir -p $IMAGE_PATH
 
+to=("chat#5193990") #OpenRITSI
+
 function send(){
 
         #to=("@vk496")
-        to=("chat#5193990") #OpenRITSI
 
 	set -x
         for i in "${to[@]}"; do
@@ -59,4 +60,8 @@ for city in "${CIUDADES[@]}"; do
 
 		send "$city" "$ciudad" "#Tiempo" "$extra"
 	fi
+done
+
+for i in "${to[@]}"; do
+	$TG_CLI -U root -G root -W -D -e "msg $i Recordad añadir vuestra ciudad en https://github.com/vk496/TelegramTiempo :)"
 done
