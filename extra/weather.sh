@@ -16,7 +16,7 @@ else
   exit 2
 fi
 
-CIUDADES=("Murcia" "Leon" "Caceres" "Pamplona" "Arrasate" "Albacete" "Don-Benito" "Malaga" "Donostia-San-Sebastian" "Salerno")
+CIUDADES=("Murcia" "Leon" "Caceres" "Pamplona" "Albacete" "Don-Benito" "Malaga" "Donostia-San-Sebastian" "Salerno")
 IMAGE_PATH=$WEATHER_DIR
 
 mkdir -p $IMAGE_PATH
