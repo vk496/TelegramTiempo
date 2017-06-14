@@ -16,7 +16,7 @@ else
   exit 2
 fi
 
-CIUDADES=("Murcia" "Leon" "Caceres" "Pamplona" "Albacete" "Don-Benito" "Malaga" "Donostia-San-Sebastian" "Salerno" "Villanueva-de-los-infantes")
+CIUDADES=("Murcia" "Leon" "Caceres" "Pamplona" "Albacete" "Don-Benito" "Malaga" "Donostia-San-Sebastian" "Salerno" "Villanueva-de-los-infantes" "Huesca" "Lleida" "Barcelona" "Madrid" "Las-rozas-de-madrid")
 IMAGE_PATH=$WEATHER_DIR
 
 mkdir -p $IMAGE_PATH
@@ -56,7 +56,11 @@ for city in "${CIUDADES[@]}"; do
 			"Albacete") extra="#Miguelitos" ;;
 			"Don-Benito") extra="#MakeDonBenitoGreatAgain"; ciudad="#DonBenitoDirecto" ;;
 			"Donostia-San-Sebastian") ciudad="#DonostiaDirecto" ;;
-			"Villanueva-de-los-infantes") ciudad="#VillanuevaDeLosInfantes" ;;
+			"Villanueva-de-los-infantes") ciudad="#VillanuevaDeLosInfantesDirecto" ;;
+			"Huesca") extra="#LaCapitalMundial" ;;
+			"Lleida") extra="#fotCaloretNoi" ;;
+			"Barcelona") extra="#AscoltaNanuQuinaCaloretaQueFa" ;;
+			"Las-rozas-de-madrid") extra="#LasRozasDeMadridDirecto" ;;
 		esac
 
 		send "$city" "$ciudad" "#Tiempo" "$extra"
