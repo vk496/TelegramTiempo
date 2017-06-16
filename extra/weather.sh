@@ -60,7 +60,7 @@ for city in "${CIUDADES[@]}"; do
 			"Huesca") extra="#LaCapitalMundial" ;;
 			"Lleida") extra="#fotCaloretNoi" ;;
 			"Barcelona") extra="#AscoltaNanuQuinaCaloretaQueFa" ;;
-			"Las-rozas-de-madrid") extra="#LasRozasDeMadridDirecto" ;;
+			"Las-rozas-de-madrid") ciudad="#LasRozasDeMadridDirecto" ;;
 		esac
 
 		send "$city" "$ciudad" "#Tiempo" "$extra"
