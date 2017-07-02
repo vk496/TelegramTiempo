@@ -21,7 +21,7 @@ IMAGE_PATH=$WEATHER_DIR
 
 mkdir -p $IMAGE_PATH
 
-to=("chat#5193990") #OpenRITSI
+to=("channel#1135859121") #OpenRITSI
 
 function send(){
 
