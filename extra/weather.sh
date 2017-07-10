@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+mode=1
+
 echo "[RUN] Looking for existing authentification at '$CLI_DATA/auth'."
 if [ -f $CLI_DATA/auth.bot.gpg ];
 then
@@ -16,24 +18,55 @@ else
   exit 2
 fi
 
-CIUDADES=("Murcia" "Leon" "Caceres" "Pamplona" "Albacete" "Don-Benito" "Malaga" "Donostia-San-Sebastian" "Salerno" "Villanueva-de-los-infantes" "Huesca" "Lleida" "Barcelona" "Madrid" "Las-rozas-de-madrid" "Oviedo")
+set -x
+
+
+CIUDADES=(
+"Murcia"
+"Leon"
+"Caceres"
+"Pamplona"
+"Albacete"
+"Don-Benito"
+"Malaga"
+"Donostia-San-Sebastian"
+"Salerno"
+"Villanueva-de-los-infantes"
+"Huesca"
+"Lleida"
+"Barcelona"
+"Madrid"
+"Las-rozas-de-madrid"
+"Oviedo"
+)
+
+
 IMAGE_PATH=$WEATHER_DIR
 
 mkdir -p $IMAGE_PATH
 
 to=("channel#1135859121") #OpenRITSI
 
-function send(){
 
+function send(){
+    #send "$city" "$ciudad" "#Tiempo" "$extra"
+    
+    getCiudad $1
+    
+    if [ -f $IMAGE_PATH/$city.png ]; then
+    
         #to=("@vk496")
 
-	set -x
         for i in "${to[@]}"; do
-		eval $TG_CLI -U root -G root -W -D -e \"send_photo $i $IMAGE_PATH/$1.png ${@:2}\"
+            (sleep 5; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"send_photo $i $IMAGE_PATH/$1.png ${@:2}\"
         done
-	set +x
+	
+	fi
 }
 
+if [ $mode -eq 1 ]; then
+    source "$WEATHER_DIR"/weatherv2.sh
+fi
 
 
 function getCiudad() {
@@ -46,28 +79,28 @@ function getCiudad() {
 
 for city in "${CIUDADES[@]}"; do
 	#echo $city
-	getCiudad $city
+	
+    ciudad="#${city}Directo"
+    extra=
 
-	if [ -f $IMAGE_PATH/$city.png ]; then
-		ciudad="#${city}Directo"
-		extra=
+    case $city in
+        "Albacete") extra="#Miguelitos" ;;
+        "Don-Benito") extra="#MakeDonBenitoGreatAgain"; ciudad="#DonBenitoDirecto" ;;
+        "Donostia-San-Sebastian") ciudad="#DonostiaDirecto" ;;
+        "Villanueva-de-los-infantes") ciudad="#VillanuevaDeLosInfantesDirecto" ;;
+        "Huesca") extra="#LaCapitalMundial" ;;
+        "Lleida") extra="#fotCaloretNoi" ;;
+        "Barcelona") extra="#AscoltaNanuQuinaCaloretaQueFa" ;;
+        "Las-rozas-de-madrid") ciudad="#LasRozasDeMadridDirecto" ;;
+        "Oviedo") extra="#Oviedo" ;;
+    esac
 
-		case $city in
-			"Albacete") extra="#Miguelitos" ;;
-			"Don-Benito") extra="#MakeDonBenitoGreatAgain"; ciudad="#DonBenitoDirecto" ;;
-			"Donostia-San-Sebastian") ciudad="#DonostiaDirecto" ;;
-			"Villanueva-de-los-infantes") ciudad="#VillanuevaDeLosInfantesDirecto" ;;
-			"Huesca") extra="#LaCapitalMundial" ;;
-			"Lleida") extra="#fotCaloretNoi" ;;
-			"Barcelona") extra="#AscoltaNanuQuinaCaloretaQueFa" ;;
-			"Las-rozas-de-madrid") ciudad="#LasRozasDeMadridDirecto" ;;
-			"Oviedo") extra="#Oviedo" ;;
-		esac
+    send "$city" "$ciudad" "#Tiempo" "$extra"
+    
+    unset city ciudad extra
 
-		send "$city" "$ciudad" "#Tiempo" "$extra"
-	fi
 done
 
 for i in "${to[@]}"; do
-	$TG_CLI -U root -G root -W -D -e "msg $i Recordad añadir vuestra ciudad en https://github.com/vk496/TelegramTiempo :)"
+	(sleep 5; echo "safe_quit") | $TG_CLI -U root -G root -W -D -e "msg $i Recordad añadir vuestra ciudad en https://github.com/vk496/TelegramTiempo :)"
 done

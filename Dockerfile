@@ -5,7 +5,7 @@ FROM ubuntu:16.04
 RUN apt-get update
 RUN apt-get install --yes \
 		ca-certificates make git gcc libconfig-dev libevent-dev libjansson-dev libreadline-dev libssl-dev  \
-		xvfb wkhtmltopdf gnupg\
+		xvfb wkhtmltopdf gnupg xmlstarlet curl\
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists \
   && echo "[http]\n\tsslVerify = true\n\tslCAinfo = /etc/ssl/certs/ca-certificates.crt\n" >> ~/.gitconfig
@@ -36,11 +36,15 @@ RUN git clone --recursive https://github.com/and-rom/tg.git "$TG_HOME" \
         &&  cd tgl && git checkout 2634b2edf3637301578428315915ff992e9b210a \
         &&  cd tl-parser && git checkout 36bf1902ff3476c75d0b1f42b34a91e944123b3c \
         )
+    
+
 WORKDIR "$TG_HOME"
 RUN ./configure --disable-liblua --disable-python && make
 COPY extra/weather.sh "$WEATHER_DIR"/weather.sh
+COPY extra/weatherv2.sh "$WEATHER_DIR"/weatherv2.sh
 
 RUN chmod +x "$WEATHER_DIR"/weather.sh
+RUN chmod +x "$WEATHER_DIR"/weatherv2.sh
 
 COPY extra/auth.bot.gpg $CLI_DATA/
 
