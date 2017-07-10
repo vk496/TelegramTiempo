@@ -113,7 +113,7 @@ get_icon() {
 
 
 print_tiempo() {
-
+    set +x
     lugar=$1
 
     if [ -z $lugar ]; then
@@ -124,7 +124,7 @@ print_tiempo() {
     fi
 
 
-    page=$(curl -qsL https://www.eltiempo.es/$lugar.html | xmlstarlet fo -H -D 2>/dev/null | xpathc "//article[@data-next-week]//div[@data-next-week-slider]" )
+    page=$(curl -qskL https://www.eltiempo.es/$lugar.html | xmlstarlet fo -H -D 2>/dev/null | xpathc "//article[@data-next-week]//div[@data-next-week-slider]" )
 
 
     for i in {1..7}; do
@@ -167,7 +167,7 @@ print_tiempo() {
 
 
     done
-
+    set -x
 }
 
 function send(){
@@ -180,7 +180,7 @@ function send(){
     
     
     for i in "${to[@]}"; do
-        (sleep 5; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"msg $i \'$mensaje\'\"
+        (sleep 7; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"msg $i \'$mensaje\'\"
     done
     
     unset tiempo
