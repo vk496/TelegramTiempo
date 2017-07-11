@@ -170,11 +170,16 @@ print_tiempo() {
     set -x
 }
 
+
+function getCiudad() {
+    print_tiempo $1 > $IMAGE_PATH/$1.txt
+}
+
 function send(){
 
     #send "$city" "$ciudad" "#Tiempo" "$extra"
     
-    tiempo=$(print_tiempo $1)
+    tiempo=$(cat $IMAGE_PATH/$1.txt)
     
     mensaje=${@:2}\\n$tiempo
     
