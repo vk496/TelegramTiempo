@@ -127,7 +127,7 @@ print_tiempo() {
     page=$(curl -qskL https://www.eltiempo.es/$lugar.html | xmlstarlet fo -H -D 2>/dev/null | xpathc "//article[@data-next-week]//div[@data-next-week-slider]" )
 
 
-    for i in {1..7}; do
+    for i in {1..4}; do
 
         ACTUAL=$(echo $page | xpathc "//div[@data-expand-tablechild-item][$i]")
 
