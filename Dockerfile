@@ -1,14 +1,12 @@
-FROM ubuntu:16.04
+FROM alpine
 
 
 # Base
-RUN apt-get update
-RUN apt-get install --yes \
-		ca-certificates make git gcc libconfig-dev libevent-dev libjansson-dev libreadline-dev libssl-dev  \
+RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \ 
+        && apk add --update --no-cache \
+		ca-certificates build-base make git gcc libconfig-dev libevent-dev jansson-dev readline-dev openssl-dev  bash grep \
 		xvfb wkhtmltopdf gnupg xmlstarlet curl\
-	&& apt-get clean \
-	&& rm -rf /var/lib/apt/lists \
-  && echo "[http]\n\tsslVerify = true\n\tslCAinfo = /etc/ssl/certs/ca-certificates.crt\n" >> ~/.gitconfig
+        && echo -e "[http]\n\tsslVerify = true\n\tslCAinfo = /etc/ssl/certs/ca-certificates.crt\n" >> ~/.gitconfig
   # the install ca-certificates and adding "slCAinfo = /etc/ssl/certs/ca-certificates.crt" to .gitconfig
   # fixed tg cloning via git with the error:
   ## fatal: unable to access 'https://github.com/vysheng/tg.git/': Problem with the SSL CA cert (path? access rights?)
@@ -44,7 +42,7 @@ RUN git clone --depth 1 https://github.com/and-rom/tg.git "$TG_HOME" \
 #         )
 
 WORKDIR "$TG_HOME"
-RUN ./configure --disable-liblua --disable-python && make -j5
+RUN ./configure --disable-liblua --disable-python && make -j$(($(getconf _NPROCESSORS_ONLN)+1))
 COPY extra/weather.sh "$WEATHER_DIR"/weather.sh
 COPY extra/weatherv2.sh "$WEATHER_DIR"/weatherv2.sh
 
@@ -55,4 +53,5 @@ COPY extra/auth.bot.gpg $CLI_DATA/
 
 CMD ["bash"]
 
-ENTRYPOINT ["/root/weather/weather.sh"]
+# ENTRYPOINT ["$WEATHER_DIR/weather.sh"]
+ENTRYPOINT [ "bash", "-c", "$WEATHER_DIR/weather.sh" ]
