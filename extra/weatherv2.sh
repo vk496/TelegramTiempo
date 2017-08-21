@@ -113,7 +113,7 @@ get_icon() {
 
 
 print_tiempo() {
-    set +x
+#     set +x
     lugar=$1
 
     if [ -z $lugar ]; then
@@ -127,7 +127,7 @@ print_tiempo() {
     page=$(curl -qskL https://www.eltiempo.es/$lugar.html | xmlstarlet fo -H -D 2>/dev/null | xpathc "//article[@data-next-week]//div[@data-next-week-slider]" )
 
 
-    for i in {1..4}; do
+    for i in {1..3}; do
 
         ACTUAL=$(echo $page | xpathc "//div[@data-expand-tablechild-item][$i]")
 
@@ -167,7 +167,7 @@ print_tiempo() {
 
 
     done
-    set -x
+#     set -x
 }
 
 
@@ -185,7 +185,9 @@ function send(){
     
     
     for i in "${to[@]}"; do
+        set +e
         (sleep 7; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"msg $i \'$mensaje\'\"
+        set -e
     done
     
     unset tiempo

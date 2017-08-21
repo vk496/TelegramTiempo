@@ -31,15 +31,20 @@ ENV PATH "$TG_HOME"/tg/bin/:$PATH
 RUN mkdir -p "$TG_HOME" "$WEATHER_DIR"
 
 
-RUN git clone --recursive https://github.com/and-rom/tg.git "$TG_HOME" \
-    && (    cd $TG_HOME && git checkout f2c95efab41f1ade33c9b11de1cf2618ee7699d3 \
-        &&  cd tgl && git checkout 2634b2edf3637301578428315915ff992e9b210a \
-        &&  cd tl-parser && git checkout 36bf1902ff3476c75d0b1f42b34a91e944123b3c \
-        )
+# RUN git clone --recursive https://github.com/and-rom/tg.git "$TG_HOME" \
+#     && (    cd $TG_HOME && git checkout f2c95efab41f1ade33c9b11de1cf2618ee7699d3 \
+#         &&  cd tgl && git checkout 2634b2edf3637301578428315915ff992e9b210a \
+#         &&  cd tl-parser && git checkout 36bf1902ff3476c75d0b1f42b34a91e944123b3c \
+#         )
     
+RUN git clone --depth 1 https://github.com/and-rom/tg.git "$TG_HOME" \
+    && (    cd $TG_HOME && git clone --depth 1 -b dev-1.4.0 https://github.com/majn/tgl )
+#         &&  cd tgl && git checkout 2634b2edf3637301578428315915ff992e9b210a \
+#         &&  cd tl-parser && git checkout 36bf1902ff3476c75d0b1f42b34a91e944123b3c \
+#         )
 
 WORKDIR "$TG_HOME"
-RUN ./configure --disable-liblua --disable-python && make
+RUN ./configure --disable-liblua --disable-python && make -j5
 COPY extra/weather.sh "$WEATHER_DIR"/weather.sh
 COPY extra/weatherv2.sh "$WEATHER_DIR"/weatherv2.sh
 
