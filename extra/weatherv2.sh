@@ -113,7 +113,7 @@ get_icon() {
 
 
 print_tiempo() {
-#     set +x
+    set +x
     lugar=$1
 
     if [ -z $lugar ]; then
@@ -167,7 +167,7 @@ print_tiempo() {
 
 
     done
-#     set -x
+    set -x
 }
 
 
