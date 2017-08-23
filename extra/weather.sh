@@ -56,12 +56,11 @@ function send(){
     if [ -f $IMAGE_PATH/$city.png ]; then
     
         #to=("@vk496")
-
+        set +e
         for i in "${to[@]}"; do
-            set +e
-            (sleep 5; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"send_photo $i $IMAGE_PATH/$1.png ${@:2}\"
-            set -e
+            (sleep 5; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"send_photo $i $IMAGE_PATH/$1.png ${@:2}\" &>/dev/null
         done
+        set -e
 	
 	fi
 }
@@ -111,8 +110,8 @@ for city in "${CIUDADES[@]}"; do
 
 done
 
+set +e
 for i in "${to[@]}"; do
-    set +e
-	(sleep 7; echo "safe_quit") | $TG_CLI -U root -G root -W -D -e "msg $i Recordad añadir vuestra ciudad en https://github.com/vk496/TelegramTiempo :)"
-	set -e
+	(sleep 7; echo "safe_quit") | $TG_CLI -U root -G root -W -D -e "msg $i Recordad añadir vuestra ciudad en https://github.com/vk496/TelegramTiempo :)" &>/dev/null
 done
+set -e

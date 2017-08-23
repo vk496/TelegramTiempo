@@ -183,12 +183,11 @@ function send(){
     
     mensaje=${@:2}\\n$tiempo
     
-    
+    set +e
     for i in "${to[@]}"; do
-        set +e
-        (sleep 7; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"msg $i \'$mensaje\'\"
-        set -e
+        (sleep 7; echo "safe_quit") | eval $TG_CLI -U root -G root -W -D -e \"msg $i \'$mensaje\'\" &>/dev/null
     done
+    set -e
     
     unset tiempo
 
